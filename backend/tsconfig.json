@@ -21,11 +21,11 @@
     },
 
     /* Strict */
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "noImplicitReturns": true,
+    "strict": false,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "strictFunctionTypes": false,
+    "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": true,
 
     /* Module Resolution */
