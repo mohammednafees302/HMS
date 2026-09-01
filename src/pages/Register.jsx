@@ -97,41 +97,50 @@ export default function Register() {
 
           {step === 1 ? (
             <form onSubmit={handleRequestOtp} className="lp-form">
-              <div className="lp-input-group">
-                <User size={18} className="lp-icon" />
-                <input
-                  type="text"
-                  placeholder="Full Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  disabled={loading}
-                  required
-                />
+              <div className="lp-field">
+                <div className="lp-input-wrap">
+                  <User size={18} className="lp-input-icon" />
+                  <input
+                    type="text"
+                    className="lp-input centered-input"
+                    placeholder="Full Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    disabled={loading}
+                    required
+                  />
+                </div>
               </div>
 
-              <div className="lp-input-group">
-                <Mail size={18} className="lp-icon" />
-                <input
-                  type="email"
-                  placeholder="Email Address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={loading}
-                  required
-                />
+              <div className="lp-field">
+                <div className="lp-input-wrap">
+                  <Mail size={18} className="lp-input-icon" />
+                  <input
+                    type="email"
+                    className="lp-input centered-input"
+                    placeholder="Email Address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={loading}
+                    required
+                  />
+                </div>
               </div>
 
-              <div className="lp-input-group">
-                <Lock size={18} className="lp-icon" />
-                <input
-                  type="password"
-                  placeholder="Create Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  disabled={loading}
-                  required
-                  minLength={6}
-                />
+              <div className="lp-field">
+                <div className="lp-input-wrap">
+                  <Lock size={18} className="lp-input-icon" />
+                  <input
+                    type="password"
+                    className="lp-input centered-input"
+                    placeholder="Create Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    disabled={loading}
+                    required
+                    minLength={6}
+                  />
+                </div>
               </div>
 
               <button type="submit" className="lp-btn-primary" disabled={loading}>
@@ -140,18 +149,21 @@ export default function Register() {
             </form>
           ) : (
             <form onSubmit={handleVerifyOtp} className="lp-form">
-              <div className="lp-input-group">
-                <Key size={18} className="lp-icon" />
-                <input
-                  type="text"
-                  placeholder="6-Digit OTP Code"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, '').slice(0, 6))}
-                  disabled={loading}
-                  required
-                  maxLength={6}
-                  style={{ letterSpacing: '0.5rem', textAlign: 'center', fontSize: '1.2rem', paddingLeft: '0' }}
-                />
+              <div className="lp-field">
+                <div className="lp-input-wrap">
+                  <Key size={18} className="lp-input-icon" />
+                  <input
+                    type="text"
+                    className="lp-input centered-input"
+                    placeholder="6-Digit OTP Code"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, '').slice(0, 6))}
+                    disabled={loading}
+                    required
+                    maxLength={6}
+                    style={{ letterSpacing: '0.5rem', textAlign: 'center', fontSize: '1.2rem', paddingLeft: '0' }}
+                  />
+                </div>
               </div>
 
               <button type="submit" className="lp-btn-primary" disabled={loading}>
