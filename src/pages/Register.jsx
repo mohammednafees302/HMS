@@ -107,6 +107,7 @@ export default function Register() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     disabled={loading}
+                    autoComplete="off"
                     required
                   />
                 </div>
@@ -122,6 +123,7 @@ export default function Register() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={loading}
+                    autoComplete="new-email"
                     required
                   />
                 </div>
@@ -137,13 +139,14 @@ export default function Register() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     disabled={loading}
+                    autoComplete="new-password"
                     required
                     minLength={6}
                   />
                 </div>
               </div>
 
-              <button type="submit" className="lp-btn-primary" disabled={loading}>
+              <button type="submit" className="lp-submit centered-submit" disabled={loading}>
                 {loading ? 'Sending Code...' : 'Sign Up'}
               </button>
             </form>
@@ -159,6 +162,7 @@ export default function Register() {
                     value={otp}
                     onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, '').slice(0, 6))}
                     disabled={loading}
+                    autoComplete="off"
                     required
                     maxLength={6}
                     style={{ letterSpacing: '0.5rem', textAlign: 'center', fontSize: '1.2rem', paddingLeft: '0' }}
@@ -166,7 +170,7 @@ export default function Register() {
                 </div>
               </div>
 
-              <button type="submit" className="lp-btn-primary" disabled={loading}>
+              <button type="submit" className="lp-submit centered-submit" disabled={loading}>
                 {loading ? 'Verifying...' : 'Verify & Complete'}
               </button>
             </form>
