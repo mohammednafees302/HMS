@@ -32,3 +32,14 @@ export const changePasswordSchema = z.object({
   currentPassword: z.string().min(1, 'Current password is required'),
   newPassword: passwordSchema,
 });
+
+export const requestOtpSchema = z.object({
+  email: emailSchema,
+});
+
+export const registerOtpSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  email: emailSchema,
+  password: passwordSchema,
+  otp: z.string().length(6, 'OTP must be exactly 6 digits'),
+});

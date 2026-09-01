@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useHMS } from '../context/HMSContext'
 import {
   Activity, Mail, Lock, Eye, EyeOff, AlertCircle,
@@ -124,6 +125,10 @@ export default function Login() {
                 </>
               )}
             </button>
+            
+            <div className="lp-footer">
+              <p>Don't have an account? <Link to="/register">Sign up instead</Link></p>
+            </div>
             
             <div className="social-divider">
               <span>or</span>

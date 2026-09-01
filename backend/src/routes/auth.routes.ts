@@ -12,6 +12,8 @@ import {
   forgotPasswordSchema,
   resetPasswordSchema,
   changePasswordSchema,
+  requestOtpSchema,
+  registerOtpSchema,
 } from '../validations/auth.validation';
 
 const router = Router();
@@ -24,6 +26,8 @@ router.post('/login', validate({ body: loginSchema }), authController.login);
 router.post('/refresh', authController.refresh);
 router.post('/forgot-password', validate({ body: forgotPasswordSchema }), authController.forgotPassword);
 router.post('/reset-password', validate({ body: resetPasswordSchema }), authController.resetPassword);
+router.post('/request-otp', validate({ body: requestOtpSchema }), authController.requestOtp);
+router.post('/register-otp', validate({ body: registerOtpSchema }), authController.registerWithOtp);
 
 // Protected routes (require valid access token)
 router.post('/logout', authenticate, authController.logout);

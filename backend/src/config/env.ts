@@ -32,6 +32,13 @@ const envSchema = z.object({
   // CORS
   CORS_ORIGINS: z.string().default('http://localhost:5173'),
 
+  // Email SMTP
+  SMTP_HOST: z.string().optional(),
+  SMTP_PORT: z.string().optional().transform(v => v ? Number(v) : undefined),
+  SMTP_USER: z.string().optional(),
+  SMTP_PASS: z.string().optional(),
+  SMTP_FROM: z.string().default('HMS System <noreply@hms.local>'),
+
   // Uploads
   UPLOAD_DIR: z.string().default('src/uploads'),
   MAX_FILE_SIZE_MB: z.string().default('10').transform(Number),

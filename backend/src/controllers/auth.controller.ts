@@ -232,3 +232,80 @@ export const changePassword = async (req: Request, res: Response) => {
 
   sendSuccess(res, null, 'Password changed successfully');
 };
+
+// ============================================================
+// PUBLIC REGISTRATION FLOW (OTP)
+// ============================================================
+import { sendOtpEmail } from '../services/email.service';
+import crypto from 'crypto';
+
+export const requestOtp = async (req: Request, res: Response) => {
+  const { email } = req.body;
+  if (!email) throw new AppError('Email is required', 400);
+
+  // Check if user already exists
+  const existingUser = await prisma.user.findUnique({ where: { email } });
+  if (existingUser) {
+    throw new AppError('Email is already registered', 400);
+  }
+
+  // Generate 6 digit OTP
+  const otp = crypto.randomInt(100000, 999999).toString();
+  const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+
+  // Upsert OTP record
+  await prisma.otpVerification.upsert({
+    where: { email },
+    update: { otp, expiresAt, verified: false },
+    create: { email, otp, expiresAt },
+  });
+
+  // Send Email
+  await sendOtpEmail(email, otp);
+
+  sendSuccess(res, { message: 'OTP sent successfully to your email' }, 200);
+};
+
+export const registerWithOtp = async (req: Request, res: Response) => {
+  const { email, otp, name, password } = req.body;
+  if (!email || !otp || !name || !password) {
+    throw new AppError('All fields (email, otp, name, password) are required', 400);
+  }
+
+  // Verify OTP
+  const otpRecord = await prisma.otpVerification.findUnique({ where: { email } });
+  if (!otpRecord) throw new AppError('No OTP request found for this email', 400);
+  
+  if (otpRecord.otp !== otp) throw new AppError('Invalid OTP', 400);
+  if (otpRecord.expiresAt < new Date()) throw new AppError('OTP has expired. Please request a new one.', 400);
+
+  // Create User
+  const passwordHash = await hashPassword(password);
+  const user = await prisma.user.create({
+    data: {
+      email,
+      name,
+      passwordHash,
+      role: 'PATIENT', // Default role for public signups
+      isActive: true,
+    },
+  });
+
+  // Delete OTP record since it's used
+  await prisma.otpVerification.delete({ where: { email } });
+
+  // Generate tokens and login
+  const payload = {
+    userId: user.id,
+    email: user.email,
+    role: user.role,
+    tokenVersion: user.tokenVersion,
+  };
+  
+  const { accessToken, refreshToken } = generateTokens(payload);
+  
+  sendSuccess(res, {
+    message: 'Registration successful',
+    data: { user, accessToken, refreshToken },
+  }, 201);
+};

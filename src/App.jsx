@@ -4,6 +4,7 @@ import { useHMS } from './context/HMSContext'
 import Sidebar      from './components/Sidebar'
 import Header       from './components/Header'
 import Login        from './pages/Login'
+import Register     from './pages/Register'
 import Dashboard    from './pages/Dashboard'
 import Patients     from './pages/Patients'
 import PatientDetails from './pages/PatientDetails'
@@ -32,8 +33,15 @@ export default function App() {
   const { isAuthenticated } = useHMS()
   const location = useLocation()
 
-  // Show login if not authenticated
-  if (!isAuthenticated) return <Login />
+  // Show public routes if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <Routes>
+        <Route path="/register" element={<Register />} />
+        <Route path="*" element={<Login />} />
+      </Routes>
+    )
+  }
 
   return (
     <div className="app-layout">
